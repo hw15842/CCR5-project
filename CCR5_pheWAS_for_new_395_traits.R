@@ -107,7 +107,7 @@ mr_senstivity_analysis <- function(outcome_trait){
   
   dat <- harmonise_data(exposure_CCR5, outcome_trait)
   
-  mr <- mr(dat)
+  mr <- mr(dat, method_list = c("mr_ivw", "mr_weighted_median", "mr_weighted_mode"))
   
   mr_het <- mr_heterogeneity(dat, method_list=c("mr_ivw"))
   
@@ -134,4 +134,29 @@ write.table(ldply(out_osteo[1:2], data.frame), file="osteo_het_loo.txt", quote=F
 
 
 
+
+
+### Re-check for cognitive/education traits ###
+
+results_all_subcategory <- read.csv("results_all_subcategories.csv")
+
+cog_traits <- subset(results_all_subcategory, grepl("Cognitive", Subcategory))
+
+cog_traits <- head(cog_traits, n=11)
+
+results_cog_traits <- lapply(cog_traits$id.outcome, run_mr_CCR5)
+results_cog_traits <- ldply(results_cog_traits, data.frame)
+
+
+x <- c("Educational attainment", "Cognitive performance", "Education years","College completion")
+
+other_cog_traits <- subset(outcome_traits_other, grepl(paste(x, collapse = "|"), outcome))
+
+dat_cog_traits <- harmonise_data(exposure_dat = exposure_CCR5, outcome_dat = other_cog_traits)
+
+results_other_cog_traits <- mr(dat_cog_traits, method_list=c("mr_ivw"))
+
+results_all_cog_traits <- rbind(results_cog_traits, results_other_cog_traits)
+
+write.table(results_all_cog_traits, file="results_all_cog_traits.txt", quote=F, sep="\t")
 
