@@ -10,10 +10,14 @@ setwd("/newhome/hw15842/PhD/CCR5/MR-Phewas_MCH")
 install.packages("devtools", lib = "/newhome/hw15842/R/x86_64-pc-linux-gnu-library/3.5", repos='http://cran.us.r-project.org')
 install.packages("plyr", lib = "/newhome/hw15842/R/x86_64-pc-linux-gnu-library/3.5", repos='http://cran.us.r-project.org')
 install.packages("data.table", lib = "/newhome/hw15842/R/x86_64-pc-linux-gnu-library/3.5", repos='http://cran.us.r-project.org')
+install.packages("pkgcond", lib = "/newhome/hw15842/R/x86_64-pc-linux-gnu-library/3.5", repos='http://cran.us.r-project.org')
+
+
 
 library (devtools)
 library(plyr)
 library(data.table)
+library(pkgcond)
 
 install_github("MRCIEU/TwoSampleMR")
 
@@ -37,18 +41,20 @@ MCH_all_data$MAF <- ifelse (MCH_all_data$eaf<=0.5, as.numeric(MCH_all_data$eaf),
 
 
 
-MCH_all_data <- MCH_all_data[!(MCH_all_data$MAF<=0.001 & MCH_all_data$info<=0.8),]
+MCH_all_data <- MCH_all_data[!(MCH_all_data$MAF<=0.001 & MCH_all_data$info<=0.8 & MCH_all_data$pval>=5e-8),]
 
 exposure_MCH <- format_data(MCH_all_data, type="exposure", snp_col="SNP", beta_col="beta", se_col="se", eaf_col="eaf", effect_allele_col="effect_allele", other_allele_col="other_allele", pval_col="pval", pos_col="position", chr_col="CHR")
+
+nrow(exposure_MCH)
 
 
 ## CLUMP
 
 
-data_split <- split(exposure_MCH, (as.numeric(rownames(exposure_MCH))-1) %/% 5000)
+data_split <- split(exposure_MCH, (as.numeric(rownames(exposure_MCH))-1) %/% 1000)
 
 data_by_chunks <- function(section){
-  clumped_data_out <- clump_data(data_split[[section]])
+  clumped_data_out <- suppress_messages((clump_data(data_split[[section]])), pattern="rs")
   return(clumped_data_out)
 }
 
