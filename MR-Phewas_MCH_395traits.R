@@ -117,56 +117,6 @@ ls()
 write.table(results_all, file="clumping_results_all.txt", quote=F, sep="\t")
 
 
-#section_numbers_split <- split(section_numbers, ceiling(seq_along(section_numbers)/500000))##
-#
-
-#section1 <- section_numbers_split[[1]]
-#section2 <- section_numbers_split[[2]]
-#section3 <- section_numbers_split[[3]]
-#section4 <- section_numbers_split[[4]]
-#section5 <- section_numbers_split[[5]]
-#section6 <- section_numbers_split[[6]]
-#section7 <- section_numbers_split[[7]]
-#section8 <- section_numbers_split[[8]]
-#section9 <- section_numbers_split[[9]]
-#section10 <- section_numbers_split[[10]]
-#section11 <- section_numbers_split[[11]]
-#section12 <- section_numbers_split[[12]]
-#section13 <- section_numbers_split[[13]]
-#section14 <- section_numbers_split[[14]]
-
-
-#results1 <- lapply(section1, data_by_chunks)
-#results1 <-  ldply(results1, data.frame)
-#head(results1)
-#nrow(results1)#
-
-#results2 <- lapply(section2, data_by_chunks)
-#results2 <-  ldply(results2, data.frame)
-#head(results2)
-#nrow(results2)#
-
-#results3 <- lapply(section3, data_by_chunks)
-#results3 <-  ldply(results3, data.frame)
-#results4 <- lapply(section4, data_by_chunks)
-#results4 <-  ldply(results4, data.frame)
-#results5 <- lapply(section5, data_by_chunks)
-#results5 <-  ldply(results5, data.frame)
-#results6 <- lapply(section6, data_by_chunks)
-#results6 <-  ldply(results6, data.frame)
-#results7 <- lapply(section7, data_by_chunks)
-#results7 <-  ldply(results7, data.frame)
-#results8 <- lapply(section8, data_by_chunks)
-#results8 <-  ldply(results8, data.frame)#
-#
-
-#head(results1)
-
-
-#write.table(exposure_MCH_split_first_half, file="exposure_MCH_split_first_half.txt", quote=F, sep="\t")
-#write.table(exposure_MCH_split_second_half, file="exposure_MCH_split_second_half.txt", quote=F, sep="\t")
-
-
 
 
 
